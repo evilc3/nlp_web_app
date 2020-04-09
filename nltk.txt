@@ -1,7 +1,7 @@
-nltk.stem
-pos_tag
-nltk.corpus
-nltk.tokenize
+corpora
+tokenizers
+stemmers
+taggers
 pros_cons
 punkt
 universal_tagset
