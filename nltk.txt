@@ -1,2 +1,2 @@
-stopwords\n
-brown 
+stopwords
+brown
