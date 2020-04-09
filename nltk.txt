@@ -1,12 +1,1 @@
-corpora
-tokenizers
-stemmers
-taggers
-pros_cons
-punkt
-universal_tagset
-snowball_data
-porter_test
-vader_lexicon
-averaged_perceptron_tagger
-averaged_perceptron_tagger_ru
+corpora tokenizers stemmers taggers pros_cons punkt universal_tagset snowball_data porter_test vader_lexicon
