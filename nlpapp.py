@@ -131,7 +131,7 @@ if st.button("Start Preprocessing"):
     st.write(int(time.time()-t1),' sec')
     st.dataframe(df)    
 
-    cvs = df.to_csv(index = False)
+    csv = df.to_csv(index = False)
 
     b64 = base64.b64encode(csv.encode())
 
