@@ -1,3 +1,2 @@
-wordnet\r
-pros_cons\r
-reuters\r
+city_database
+stopwords
