@@ -1,1 +1,3 @@
-corpora tokenizers stemmers taggers pros_cons punkt universal_tagset snowball_data porter_test vader_lexicon
+wordnet
+pros_cons
+reuters
