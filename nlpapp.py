@@ -71,72 +71,84 @@ if flag == 1:
 st.write("###  **select feature column (not target column)**")
 select = st.multiselect("",options = df.columns)
 
-st.write(f'#### **you have selected *{select}* to preprocess **')
-
-st.write('## **Filter Settings**')
-
-remove_punct  = st.radio("Remove Punctuations ?",("yes","no"),index = 1)
-remove_digits = st.radio("Remove Digits ?",("yes","no"),index = 1)
-remove_chars = st.radio("Remove Invalid Characters ?",("yes","no"),index = 1)
-
-# st.write("#### Enter value for N will ommite word if its length < N")
-num = st.number_input("Enter value for N will ommite word if its length < N",value = 2)
-
-# st.write("Value selected",num)
-
-
-st.write("## **PreProcessing Settings**")
-
-stemmer_option = st.radio("Stemmers Options:",('Porter','SnowBall','ISR'),index = 0)
-stopword_option = st.radio("StopWord Option:",('nltk','extended'),index = 0)
-lemmatizer_option = st.radio("Use Lemmatize: ?",("yes","np"),index = 1)
-vectorizer_option = st.radio("Vectorizer",("Count","Tfidf"),index = 0)
 
 
 
+if select != []:
 
 
-if st.button("Start Preprocessing"):
 
-    #Selecring columns from the dataframe
-    t1 = time.time()
+    st.write(f'#### **you have selected *{select}* to preprocess **')
 
-    
-    
-    #apply settings 
+    st.write('## **Filter Settings**')
 
-    #filter settings
+    remove_punct  = st.radio("Remove Punctuations ?",("yes","no"),index = 1)
+    remove_digits = st.radio("Remove Digits ?",("yes","no"),index = 1)
+    remove_chars = st.radio("Remove Invalid Characters ?",("yes","no"),index = 1)
 
-    
-    remove_chars =  True if remove_chars == 'yes' else  False
-    remove_digits = True if remove_digits == 'yes' else False
-    remove_punct = True if remove_punct == 'yes' else False
+    # st.write("#### Enter value for N will ommite word if its length < N")
+    num = st.number_input("Enter value for N will ommite word if its length < N",value = 2)
+
+    # st.write("Value selected",num)
 
 
-    st.write("settings")
-    st.write(num,remove_chars,remove_punct,remove_digits)
-    st.write(stemmer_option,stopword_option,vectorizer_option)
+    st.write("## **PreProcessing Settings**")
 
-    n.set_parms(N = num , punct = remove_punct,digits = remove_digits,validate_chrs = remove_chars)
-
-    #preprocessing settings
-
-    n.apply_settings('word',stopwords=stopword_option,vectorizer=vectorizer_option,stemmer=stemmer_option)
- 
-
-    for col in select:
-        df[col] = df[col].map(n.nlp_cleaner)
+    stemmer_option = st.radio("Stemmers Options:",('Porter','SnowBall','ISR'),index = 0)
+    stopword_option = st.radio("StopWord Option:",('nltk','extended'),index = 0)
+    lemmatizer_option = st.radio("Use Lemmatize: ?",("yes","np"),index = 1)
+    vectorizer_option = st.radio("Vectorizer",("Count","Tfidf"),index = 0)
 
 
-    st.write(int(time.time()-t1),' sec')
-    st.dataframe(df)    
-
-    csv = df.to_csv(index=False)
-    b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
-    href = f'<a href="data:file/csv;base64,{b64} download">Download csv file</a>'
-
-    st.markdown(href,unsafe_allow_html = True)
 
 
+
+    if st.button("Start Preprocessing"):
+
+        #Selecring columns from the dataframe
+        t1 = time.time()
+
+        
+        
+        #apply settings 
+
+        #filter settings
+
+        
+        remove_chars =  True if remove_chars == 'yes' else  False
+        remove_digits = True if remove_digits == 'yes' else False
+        remove_punct = True if remove_punct == 'yes' else False
+
+
+        st.write("settings")
+        st.write(f" N = {num}, remove invalid characters = {remove_chars}, remove punctuations = {remove_punct}, remove digits = {remove_digits}")
+        st.write(f"stemmer = {stemmer_option},stopwords = {stopword_option},vectorizer = {vectorizer_option}")
+
+        n.set_parms(N = num , punct = remove_punct,digits = remove_digits,validate_chrs = remove_chars)
+
+        #preprocessing settings
+
+        n.apply_settings('word',stopwords=stopword_option,vectorizer=vectorizer_option,stemmer=stemmer_option)
     
 
+        for col in select:
+            df[col] = df[col].map(n.nlp_cleaner)
+
+
+        st.write(int(time.time()-t1),' sec')
+        st.dataframe(df)    
+
+        csv = df.to_csv(index=False)
+        b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
+        href = f'<a href="data:file/csv;base64,{b64}" download>Download CSV File</a> (right-click and save as &lt;some_name&gt;.csv)'
+        st.markdown(href, unsafe_allow_html=True)
+
+
+
+        #download the vectorizer 
+
+        
+
+        
+else:
+    st.write("## Please Select one or  ** *multiple Feature columns* ** to proceed further")
