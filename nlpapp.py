@@ -131,16 +131,12 @@ if st.button("Start Preprocessing"):
     st.write(int(time.time()-t1),' sec')
     st.dataframe(df)    
 
-    csv = df.to_csv(index = False)
-
-    b64 = base64.b64encode(csv.encode())
-
-    href = f'<a href = "data:file/csv;base64,{b64}">Download data set</a>'
-
-    # href =   r'<a href="C:\Users\CLIVE\Desktop\ml projects\NLP_PROJECT" download>download</a>'
-
+    csv = df.to_csv(index=False)
+    b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
+    href = f'<a href="data:file/csv;base64,{b64}">Download csv file</a>'
 
     st.markdown(href,unsafe_allow_html = True)
+
 
     
 
