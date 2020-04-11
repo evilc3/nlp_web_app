@@ -20,6 +20,7 @@ st.title('Auto NLP V0.01')
 choise = st.checkbox('Show user mannual')
 
 
+
 if choise:
 
     docs = """
@@ -210,12 +211,14 @@ if file_type == 'csv' or file_type == 'xlsx':
 
                 n.apply_settings('word',stopwords=stopword_option,stemmer=stemmer_option)
             
+                
+                with st.spinner("wait processing ..."):
+                    for col in select:
+                        df[col] = df[col].map(n.nlp_cleaner)
 
-                for col in select:
-                    df[col] = df[col].map(n.nlp_cleaner)
+                st.success("done processing")    
 
-
-                st.write(int(time.time()-t1),' sec')
+                st.write('completed in ',int(time.time()-t1),' sec')
                 st.dataframe(df)    
 
                 csv = df.to_csv(index=False)
