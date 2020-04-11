@@ -212,11 +212,12 @@ if file_type == 'csv' or file_type == 'xlsx':
                 n.apply_settings('word',stopwords=stopword_option,stemmer=stemmer_option)
             
                 
-                with st.spinner("wait processing ..."):
-                    for col in select:
-                        df[col] = df[col].map(n.nlp_cleaner)
+#                 with st.spinner("wait processing ..."):
+                
+                for col in select:
+                    df[col] = df[col].map(n.nlp_cleaner)
 
-                st.success("done processing")    
+#                 st.success("done processing")    
 
                 st.write('completed in ',int(time.time()-t1),' sec')
                 st.dataframe(df)    
