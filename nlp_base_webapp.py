@@ -137,15 +137,14 @@ class nlp():
         return text   
 
     def valid_char(self,input):
-        
+        tmp = ""
         for j in input:
             if ord(j) <= 126 and ord(j)>=33:
-                continue
+                tmp +=j
 
-            else:
-                return  False
+        
 
-        return True
+        return tmp
        
     def get_stopwords(self,input):
     
@@ -193,8 +192,8 @@ class nlp():
 
                 if self.special_chrs:    
 
-                    if self.valid_char(i):    
-                        op_string += i.lower() + ' '
+                    op_string += self.valid_char(i).lower() + ' ' 
+                        
                 else:
                     op_string += i.lower() + ' '
 
@@ -324,28 +323,30 @@ if __name__ == "__main__":
     
     n.set_parms(2,True,True,True)
 
-    print(f'current settings {n.get_settings()}')
-    n.nlp_cleaner(string,1)
+    print(n.get_stopwords('Jacob & 4i20 - Sound City (Original Mix)'))
+    print('done')
+    # print(f'current settings {n.get_settings()}')
+    # n.nlp_cleaner(string,1)
 
-    print("\n","****"*30,'\n')
-    #changing settings stemmer = snowball , stopwords = "entended"
+    # print("\n","****"*30,'\n')
+    # #changing settings stemmer = snowball , stopwords = "entended"
 
-    n.apply_settings(stopwords="extended",stemmer = "SnowBall") 
-
-
-    print(f'current settings {n.get_settings()}')
-    n.nlp_cleaner(string,1)
-
-    print("\n","****"*30,'\n')
-
-    n.apply_settings(stopwords="extended",stemmer = "SnowBall",tokenizer="sent") 
-
-    print(f'current settings {n.get_settings()}')
-    n.nlp_cleaner(string,1)
+    # n.apply_settings(stopwords="extended",stemmer = "SnowBall") 
 
 
+    # print(f'current settings {n.get_settings()}')
+    # n.nlp_cleaner(string,1)
+
+    # print("\n","****"*30,'\n')
+
+    # n.apply_settings(stopwords="extended",stemmer = "SnowBall",tokenizer="sent") 
+
+    # print(f'current settings {n.get_settings()}')
+    # n.nlp_cleaner(string,1)
 
 
 
 
-           
+
+
+          

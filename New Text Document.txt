@@ -1,0 +1,73 @@
+Title: Automated NLP Web App - machine learning project using Python,Streamlit,NLTK
+,Heroku
+
+App Link : 
+
+This is an ML Web app that lets you do all the main text preprocessing task and get your 
+data ready to be feed into the model by just the click of some  buttons.
+
+backstory:
+I have participated in some ml competitions and have spent at least 1hr getting all
+the boiler plate code ready to train my model.
+
+But with the app I was able to do the same things within minutes and I would like to share it with the rest of you.
+that said this app is still not **full proof** i have included parameters that i have tested but as have only little experiance 
+in this field i possiably cant include all the preprocessing parameters at least not in this version of the app.
+
+**************************User mannual  (whats working)******************************************
+
+That said lets see what this app can go (whats working)
+
+1 Users can remove Invalid character   eg. 
+2 Users can remove  all punctuauions 
+3 Users can remove digits
+
+4 Users can choose to filter out words shorter than a specified length. (parameter used is N)
+
+
+5 can remove stopwords:
+>>Over here there are 2 options
+>>1 nltk this contains stopwords found in the vinalli nlkt library
+>>2 extended stop words from this site:  https://gist.github.com/larsyencken/1440509
+
+
+6 can do stemming all stemmers from nltk are available.	
+
+
+7 can do lemmatization 
+
+### note:- either lemmatization or stemming can be used at once.
+
+***************************** yet to implement *********************************
+
+1>methods to vectorize can be able to download it. Downloading files is added in
+Streamlit yet. 
+
+
+2> adding more filters eg. to remove Html tags etc.
+
+3> adding options for custom filter and parameters.
+
+4>adding suport for more file formats currently only supports .csv and .xlsx
+
+
+********************************************************************************
+
+Github link to the project code https://github.com/evilc3/NLP-APP initially i had 
+created a desktop app using Kivy but later on to reach more people I decided web app 
+was the way to go. You will find all the main code in there.
+
+
+This project will save a lot of time spend on preprocessing which can then be utilized
+in hyperparameter tunning ect,model selection ect.
+
+
+Please upvote if you find this project usefull. 
+
+
+
+
+
+
+
+ 	

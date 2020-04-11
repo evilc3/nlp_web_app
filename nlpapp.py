@@ -11,7 +11,51 @@ import base64
 from nlp_base_webapp import *
 import time
 
-st.title('Auto NLP')
+
+st.write('<style>div.Widget.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
+
+
+st.title('Auto NLP V0.01')
+
+choise = st.checkbox('Show user mannual')
+
+
+if choise:
+
+    docs = """
+        
+            ### Follow these steps.
+            1.Select the type of file format (currently only sopports .csv and .xlsx).\n
+            2.Then import dataset form your pc.\n
+            3.Then select the feature columns form the dataset.(can support multiple columns)\n
+            ### note: selected columns needs to be text
+
+            ## Filter setction 
+            ### In this section you can select to 
+            1. remove punctuations.
+            2. remove digits.
+            3. remove invlid characters eg. emojies
+            4. parameter N which discards words of length less than N (default N = 2 )
+
+            ## **Preoprcessing section**
+            1. user can remove **stopwords**.\n
+            ** note:- this section has 2 options**\n
+            a. **nltk** this uses the stopwords found in nltk library\n
+            b. **extended** more stopwords than nltk library
+
+
+            2. **Stemming**
+
+            ** Note : after preproceesing a download link will appear clicking on that will download a file . replace the extension 
+            with .csv even if you had imported .xlsx file this app imports 
+            only .csv files. Have to do this becz. curretly streamlit doesnt support 
+            download wedgit. **
+
+
+        """
+
+    st.write(docs)
+
 
 
 st.write("#### currently only supports .csv and .xlsx file formats")
@@ -26,7 +70,7 @@ if file_type == 'csv' or file_type == 'xlsx':
     # path  = st.text_input("enter path",'file.csv')
     uploaded_file = st.file_uploader("Choose a  file",type = file_type)
 
-    encoding  = st.text_input("Enter encoding")
+    # encoding  = st.text_input("Enter encoding")
 
 
     # if encoding == '':
@@ -40,8 +84,6 @@ if file_type == 'csv' or file_type == 'xlsx':
     #      ('Comedy', 'Drama', 'Documentary'))
 
 
-    st.write('<style>div.Widget.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
-
 
     if uploaded_file != None:
 
@@ -54,7 +96,7 @@ if file_type == 'csv' or file_type == 'xlsx':
             df = pd.read_excel(uploaded_file)    
         uploaded_file.close()
 
-        st.dataframe(df.head())
+        st.dataframe(df[:10])
 
         # label = st.selectbox("Select target",df.columns)
         data = {'Columns':[],'Field Length':[],'Nulls':[]}
@@ -126,9 +168,10 @@ if file_type == 'csv' or file_type == 'xlsx':
 
             stemmer_option = st.radio("Stemmers Options:",('Porter','SnowBall','ISR'),index = 0)
             stopword_option = st.radio("StopWord Option:",('nltk','extended'),index = 0)
-            lemmatizer_option = st.radio("Use Lemmatize: ? (not implemented yet)",("yes","np"),index = 1)
-            vectorizer_option = st.radio("Vectorizer (not implemented yet)",("Count","Tfidf"),index = 0)
+            # lemmatizer_option = st.radio("Use Lemmatize: ? (not implemented yet)",("yes","np"),index = 1)
+            # vectorizer_option = st.radio("Vectorizer (not implemented yet)",("Count","Tfidf"),index = 0)
 
+            
 
 
 
@@ -154,8 +197,8 @@ if file_type == 'csv' or file_type == 'xlsx':
                 # st.write(f" N = {num}, remove invalid characters = {remove_chars}, remove punctuations = {remove_punct}, remove digits = {remove_digits}")
                 # st.write(f"stemmer = {stemmer_option},stopwords = {stopword_option},vectorizer = {vectorizer_option}")
 
-                settings = pd.DataFrame(data = {'properties':['N','rm. invlaid chars.','remove punct.','remove digits','stemmer','stopwords','vectorizer'],
-                                     'selected':[num,remove_chars,remove_punct,remove_digits,stemmer_option,stopword_option,vectorizer_option]
+                settings = pd.DataFrame(data = {'properties':['N','rm. invlaid chars.','remove punct.','remove digits','stemmer','stopwords'],
+                                     'selected':[num,remove_chars,remove_punct,remove_digits,stemmer_option,stopword_option]
                                     })
 
                 st.dataframe(settings)    
@@ -165,7 +208,7 @@ if file_type == 'csv' or file_type == 'xlsx':
 
                 #preprocessing settings
 
-                n.apply_settings('word',stopwords=stopword_option,vectorizer=vectorizer_option,stemmer=stemmer_option)
+                n.apply_settings('word',stopwords=stopword_option,stemmer=stemmer_option)
             
 
                 for col in select:
@@ -189,3 +232,4 @@ if file_type == 'csv' or file_type == 'xlsx':
                 
         else:
             st.write("## Please Select one or  ** *multiple Feature columns* ** for preprocessing")
+
