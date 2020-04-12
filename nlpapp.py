@@ -242,6 +242,7 @@ if file_type == 'csv' or file_type == 'xlsx':
                             b64 = base64.b64encode(csv.encode()).decode()
                             href = f'<a href="data:file/csv;base64,{b64}" download>Download {i+1} CSV File</a> (right-click and save as &lt;some_name&gt;.csv)'
                             st.markdown(href, unsafe_allow_html=True)
+                            del csv,b64
 
                         csv = df.iloc[bins[-1]:].to_csv()
 
