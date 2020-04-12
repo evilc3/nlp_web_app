@@ -12,6 +12,8 @@ from nlp_base_webapp import *
 import time
 
 
+
+
 st.write('<style>div.Widget.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
 
 
@@ -90,6 +92,8 @@ if file_type == 'csv' or file_type == 'xlsx':
 
 
         flag = 0
+
+        export = 0
 
         if file_type == 'csv':
             df = pd.read_csv(uploaded_file)
@@ -174,10 +178,10 @@ if file_type == 'csv' or file_type == 'xlsx':
 
             
 
+            preprocess_button = st.button("Start Preprocessing")
 
 
-
-            if st.button("Start Preprocessing"):
+            if preprocess_button:
 
                 #Selecring columns from the dataframe
                 t1 = time.time()
@@ -212,24 +216,27 @@ if file_type == 'csv' or file_type == 'xlsx':
                 n.apply_settings('word',stopwords=stopword_option,stemmer=stemmer_option)
             
                 
-#                 with st.spinner("wait processing ..."):
-                
                 for col in select:
-                    df[col] = df[col].map(n.nlp_cleaner)
+                        df[col] = df[col].map(n.nlp_cleaner)
 
-#                 st.success("done processing")    
-
-                st.write('completed in ',int(time.time()-t1),' sec')
-                st.dataframe(df.head(10))    
                 
-                if st.button("download file"):
-                     csv = df.to_csv(index=False)
-                     b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
-                     href = f'<a href="data:file/csv;base64,{b64} download">Download CSV File</a> (right-click and save as &lt;some_name&gt;.csv)'
-                     st.markdown(href, unsafe_allow_html=True)
+                st.write('completed in ',int(time.time()-t1),' sec')
+                st.dataframe(df)    
+
+               
 
 
+                #show download link 
 
+                
+                if st.button("Download file",key ="export_button"):
+                    csv = df.to_csv(index=False)
+                    b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
+                    href = f'<a href="data:file/csv;base64,{b64}" download>Download CSV File</a> (right-click and save as &lt;some_name&gt;.csv)'
+                    st.markdown(href, unsafe_allow_html=True)
+
+
+                            
 
 
                 
