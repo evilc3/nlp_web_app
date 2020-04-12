@@ -221,7 +221,7 @@ if file_type == 'csv' or file_type == 'xlsx':
 
                 
                 st.write('completed in ',int(time.time()-t1),' sec')
-                st.dataframe(df)    
+                st.dataframe(df.head(10))    
 
                
 
