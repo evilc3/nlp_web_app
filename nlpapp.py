@@ -220,7 +220,7 @@ if file_type == 'csv' or file_type == 'xlsx':
 #                 st.success("done processing")    
 
                 st.write('completed in ',int(time.time()-t1),' sec')
-                st.dataframe(df)    
+                st.dataframe(df.head(10))    
                 
                 if st.button("download file"):
                      csv = df.to_csv(index=False)
