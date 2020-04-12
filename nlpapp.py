@@ -91,7 +91,7 @@ if file_type == 'csv' or file_type == 'xlsx':
 
     if uploaded_file != None:
 
-
+        processing  = 0
         flag = 0
 
         export = 0
@@ -179,7 +179,7 @@ if file_type == 'csv' or file_type == 'xlsx':
 
             
 
-            preprocess_button = st.button("Start Preprocessing")
+            preprocess_button = st.button("Start Preprocessing",key="p")
 
 
             if preprocess_button:
@@ -226,7 +226,7 @@ if file_type == 'csv' or file_type == 'xlsx':
                 st.write('total rows::',len(df))
                
 
-
+                processing  = 1
               
               
                             
@@ -237,17 +237,41 @@ if file_type == 'csv' or file_type == 'xlsx':
             st.write("## Please Select one or  ** *multiple Feature columns* ** for preprocessing")
 
   #show download link 
-if st.button("Download file"):
-        csv = df.to_csv(index=False)
-
+if st.button("Download file","w"):
             
-        #delete df
+        try:
 
-        # st.write(df.memory_usage(deep = True).values.sum()/1024)
-        del df
-        with st.spinner("preparing"):
-            b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
-        del csv
-        gc.collect()
-        href = f'<a href="data:file/csv;base64,{b64}" download>Download CSV File</a> (right-click and save as &lt;some_name&gt;.csv)'
-        st.markdown(href, unsafe_allow_html=True)
+
+            if len(df) >  30000:
+                st.write(" dataset has rows > 30000 then dataframe will be downloaded in segments (each segment will have dataframe of 30000 rows)")
+
+                bins = list(range(0,len(df),30000))
+                bin_len = len(bins)
+
+
+                for i in range(bin_len-1):
+                    csv =  df.iloc[i*30000 : 30000 * (i + 1)].to_csv()
+                    b64 = base64.b64encode(csv.encode()).decode()
+                    href = f'<a href="data:file/csv;base64,{b64}" download>Download {i} CSV File</a> (right-click and save as &lt;some_name&gt;.csv)'
+                    st.markdown(href, unsafe_allow_html=True)
+
+                csv = df.iloc[bins[-1]:].to_csv()
+
+                b64 = base64.b64encode(csv.encode()).decode()
+                href = f'<a href="data:file/csv;base64,{b64}" download>Download {bin_len} CSV File</a> (right-click and save as &lt;some_name&gt;.csv)'
+                st.markdown(href, unsafe_allow_html=True)
+            
+            else:
+                
+                #delete df
+                csv= df.to_csv(index = False)
+                # st.write(df.memory_usage(deep = True).values.sum()/1024)
+                del df
+                with st.spinner("preparing"):
+                    b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
+                del csv
+                href = f'<a href="data:file/csv;base64,{b64}" download>Download CSV File</a> (right-click and save as &lt;some_name&gt;.csv)'
+                st.markdown(href, unsafe_allow_html=True)
+
+        except Exception:
+            st.write("please upload a file first or no processing down")
